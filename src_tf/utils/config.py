@@ -2,8 +2,8 @@ class CFG:
     debug = False
     seed = 42
     
-    image_path = "./data/flickr8k/Images"
-    caption_path = "./data/flickr8k"
+    image_path = "./src_tf/data/flickr8k/Images"
+    caption_path = "./src_tf/data/flickr8k"
     
     # Training params
     batch_size = 32
