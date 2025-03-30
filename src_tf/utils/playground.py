@@ -2,8 +2,8 @@ import matplotlib as plt
 import os
 import tensorflow as tf
 import keras_nlp
-from src_tf.utils.config import CFG
-from src_tf.data.loader import build_decoder,  build_augmenter
+from siglip.src_tf.utils.config import CFG
+from siglip.src_tf.data.loader import build_decoder, build_augmenter
 
 
 preprocessor = keras_nlp.models.DistilBertPreprocessor.from_preset(

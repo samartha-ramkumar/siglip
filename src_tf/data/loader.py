@@ -1,6 +1,7 @@
+import os
+import pandas as pd
 import keras_cv
 import tensorflow as tf
-import os
 from src_tf.utils.config import CFG
 import keras_nlp
 
@@ -103,3 +104,44 @@ def build_dataset(
     ds = ds.map(augment_fn, num_parallel_calls=AUTO) if augment else ds
     ds = ds.prefetch(AUTO)
     return ds
+
+
+def load_dataset():
+    df = pd.read_csv(f"{CFG.caption_path}/captions.txt")
+    df["image_path"] = CFG.image_path + "/" + df.image
+
+
+    from sklearn.model_selection import GroupKFold
+
+    # Create a GroupKFold object with 5 folds
+    gkf = GroupKFold(n_splits=5)
+
+    # Add fold column based on groups
+    df['fold'] = -1
+    for fold, (train_index, valid_index) in enumerate(gkf.split(df, groups=df["image"])):
+        df.loc[valid_index, 'fold'] = fold
+
+
+
+    sample_df = df.groupby("image").head(1).reset_index(drop=True) # .sample(frac=1.0)
+    valid_df = sample_df[sample_df.fold == 0]
+
+    # train_df = sample_df[sample_df.fold != 0]  # Uncomment this line for dataset training
+    train_df = sample_df[sample_df.fold == 1]
+    print(f"# Num Train: {len(train_df)} | Num Valid: {len(valid_df)}")
+
+    # Train
+    train_paths = train_df.image_path.values
+    train_texts = train_df.caption.values
+    train_ds = build_dataset(train_paths, train_texts,
+                             batch_size=CFG.batch_size,
+                             repeat=True, shuffle=True, augment=True, cache=True)
+
+    # Valid
+    valid_paths = valid_df.image_path.values
+    valid_texts = valid_df.caption.values
+    valid_ds = build_dataset(valid_paths, valid_texts,
+                            batch_size=CFG.batch_size,
+                            repeat=False, shuffle=False, augment=False, cache=True)
+    
+    return train_ds, valid_ds

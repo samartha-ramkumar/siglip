@@ -1,4 +1,4 @@
-from src_tf.utils.config import CFG
+from siglip.src_tf.utils.config import CFG
 import keras
 from keras import ops
 
@@ -55,8 +55,8 @@ class CLIPModel(keras.Model):
         return logits
     
 if __name__ == '__main__':
-    from src_tf.models.encoders.encoder import build_image_encoder,  build_text_encoder
-    from src_tf.utils.loss import CLIPLoss
+    from siglip.src_tf.models.encoders.encoder import build_image_encoder,  build_text_encoder
+    from siglip.src_tf.utils.loss import CLIPLoss
 
     image_encoder = build_image_encoder()
     text_encoder = build_text_encoder()
