@@ -1,3 +1,8 @@
+from src_tf.utils.config import CFG
+import keras
+from keras import ops
+
+
 class CLIPModel(keras.Model):
     def __init__(self, image_encoder, text_encoder, temperature=1.0):
         super().__init__()
@@ -49,6 +54,13 @@ class CLIPModel(keras.Model):
         logits = self.get_logits(image_features, text_features)
         return logits
     
-clip_model = CLIPModel(image_encoder, text_encoder)
+if __name__ == '__main__':
+    from src_tf.models.encoders.encoder import build_image_encoder,  build_text_encoder
+    from src_tf.utils.loss import CLIPLoss
 
-clip_model.compile(optimizer="adam", loss=CLIPLoss())
+    image_encoder = build_image_encoder()
+    text_encoder = build_text_encoder()
+    image_encoder.summary(), text_encoder.summary()
+    clip_model = CLIPModel(image_encoder, text_encoder)
+
+    clip_model.compile(optimizer="adam", loss=CLIPLoss())

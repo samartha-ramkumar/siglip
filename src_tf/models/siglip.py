@@ -1,3 +1,7 @@
+from src_tf.utils.config import CFG
+import keras
+from keras import ops
+
 class SigLIPModel(keras.Model):
     def __init__(
         self,
@@ -51,8 +55,15 @@ class SigLIPModel(keras.Model):
         return self.get_logits(x, training=training)
 
 
+if __name__ == '__main__':
+    from src_tf.models.encoders.encoder import build_image_encoder,  build_text_encoder
+    from src_tf.utils.loss import SigLIPLoss
+    
+    image_encoder = build_image_encoder()
+    text_encoder = build_text_encoder()
+    image_encoder.summary(), text_encoder.summary()
 
-siglip_model = SigLIPModel(image_encoder, text_encoder, num_logits=CFG.batch_size,
-                    logit_scale=2.30, logit_bias=-10.0)
+    siglip_model = SigLIPModel(image_encoder, text_encoder, num_logits=CFG.batch_size,
+                        logit_scale=2.30, logit_bias=-10.0)
 
-siglip_model.compile(optimizer="adam", loss=SigLIPLoss())
+    siglip_model.compile(optimizer="adam", loss=SigLIPLoss())

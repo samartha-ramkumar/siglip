@@ -2,6 +2,12 @@ import keras_cv
 import tensorflow as tf
 import os
 from src_tf.utils.config import CFG
+import keras_nlp
+
+preprocessor = keras_nlp.models.DistilBertPreprocessor.from_preset(
+    preset=CFG.text_preset, # Name of the model
+    sequence_length=CFG.sequence_length, # Max sequence length, will be padded if shorter
+)
 
 
 def build_augmenter():
