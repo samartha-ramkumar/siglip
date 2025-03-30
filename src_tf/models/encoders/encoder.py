@@ -1,7 +1,7 @@
 import keras_cv
 import keras
 import keras_nlp
-from utils.config import CFG
+from src_tf.utils.config import CFG
 
 
 

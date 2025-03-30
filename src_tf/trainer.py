@@ -9,15 +9,13 @@ import numpy as np
 from keras import ops
 import pandas as pd
 import matplotlib as plt
-from siglip.src_tf.data.loader import build_dataset
-from siglip.src_tf.utils.config import CFG
-from siglip.src_tf.data.loader import load_dataset
+from src_tf.utils.config import CFG
+from src_tf.data.loader import load_dataset
 
-from siglip.src_tf.models.encoders.encoder import build_image_encoder,  build_text_encoder
-from siglip.src_tf.utils.loss import SigLIPLoss
-from siglip.src_tf.utils.lr_scheduler import get_lr_callback
-from siglip.src_tf.models.siglip import SigLIPModel
-
+from src_tf.models.encoders.encoder import build_image_encoder,  build_text_encoder
+from src_tf.utils.loss import SigLIPLoss
+from src_tf.utils.lr_scheduler import get_lr_callback
+from src_tf.models.siglip import SigLIPModel
 
 
 
